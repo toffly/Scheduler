@@ -1,10 +1,11 @@
 import {
   CalendarDaysIcon,
   LayoutDashboardIcon,
+  LogOutIcon,
   UsersIcon,
   Wand2Icon,
 } from "lucide-react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 const Sidebar = ({
   isOpen,
@@ -13,6 +14,14 @@ const Sidebar = ({
   isOpen: boolean;
   setIsOpen: (val: boolean) => void;
 }) => {
+  const navigate = useNavigate();
+  const { logout, user } = {
+    logout: () => {
+      navigate("/");
+    },
+    user: { name: "John Doe", email: "johndoe@example.com" },
+  };
+
   const location = useLocation();
 
   const navItem = [
@@ -24,7 +33,7 @@ const Sidebar = ({
 
   return (
     <div
-      className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-slate-200 flex flex-col h-full transform transition-transform duration-200 ease-in-out md:relative md:translate-x-0
+      className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-slate-200 flex flex-col justify-between h-full transform transition-transform duration-200 ease-in-out md:relative md:translate-x-0
     ${isOpen ? "translate-x-0" : "-translate-x-full"}
     `}
     >
@@ -66,6 +75,25 @@ const Sidebar = ({
             );
           })}
         </nav>
+      </div>
+
+      {/* User Footer */}
+      <div className="p-4 border-t border-slate-100">
+        <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-50 transition-colors">
+          <div className="size-8 rounded-full bg-linear-to-br from-red-400 to-pink-400 flex items-center justify-center text-white text-sm font-medium shrink-0">
+            {user?.name?.charAt(0).toUpperCase() || "U"}
+          </div>
+
+          <div className="flex-1 min-w-0">
+            <div className="text-sm text-slate-800 truncate">{user?.name}</div>
+            <div className="text-sm text-slate-400 truncate">{user?.email}</div>
+          </div>
+        </div>
+
+        <button onClick={logout} className="mt-1 flex items-center gap-2 px-3 py-2 w-full rounded text-sm text-slate-500 hover:bg-red-50 hover:text-red-500 transition-all duration-150">
+          <LogOutIcon size={16} />
+          Sign Out
+        </button>
       </div>
     </div>
   );
