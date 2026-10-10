@@ -12,6 +12,7 @@ interface AccountListProps {
 }
 
 const AccountList = ({ accounts, onDisconnect }: AccountListProps) => {
+    
   const handleDisconnect = async (accountId: string) => {
     const confirm = window.confirm(
       "Are you sure you want to disconnect this account?",
@@ -70,7 +71,7 @@ const AccountList = ({ accounts, onDisconnect }: AccountListProps) => {
               title="Disconnect account"
               className="ml-2 p-1.5 rounded-lg text-slate-300 group-hover:text-red-500 transition-all"
             >
-              <UnplugIcon size={16} />
+              <UnplugIcon size={16} className="cursor-pointer" />
             </button>
           </div>
         );

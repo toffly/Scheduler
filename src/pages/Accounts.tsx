@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { dummyAccountsData, PLATFORMS } from "../assets/assets";
 import { PlusIcon } from "lucide-react";
 import AccountList from "../components/AccountList";
+import PlatformPicker from "../components/PlatformPicker";
 
 const Accounts = () => {
   const [accounts, setAccounts] = useState<any[]>([]);
@@ -30,10 +31,10 @@ const Accounts = () => {
   };
 
   const handleDisconnect = async (accountId: string) => {
-    setAccounts(accounts.filter((a) => a.id !== accountId));
+    setAccounts(accounts.filter((a) => a._id !== accountId));
   };
 
-  const connectedds = accounts.map((a) => a.platform);
+  const connectedIds = accounts.map((a) => a.platform);
 
   return (
     <div className="space-y-8 max-w-4xl">
@@ -55,6 +56,7 @@ const Accounts = () => {
       </div>
 
       {/* Platform picker modal */}
+      {showPlatformPicker && <PlatformPicker connectedIds={connectedIds} connecting={connecting} onClose={()=> setShowPlatformPicker(false)} onConnect={handleConnect}/>}
 
       {/* Connected accounts list */}
       <AccountList accounts={accounts} onDisconnect={handleDisconnect} />
