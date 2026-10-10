@@ -12,7 +12,6 @@ interface AccountListProps {
 }
 
 const AccountList = ({ accounts, onDisconnect }: AccountListProps) => {
-    
   const handleDisconnect = async (accountId: string) => {
     const confirm = window.confirm(
       "Are you sure you want to disconnect this account?",
@@ -44,12 +43,12 @@ const AccountList = ({ accounts, onDisconnect }: AccountListProps) => {
         return (
           <div
             key={index}
-            className="group bg-white border border-slate-200 rounded-2xl p-5 flex items-center gap-4 hover:border-slate-00 transition-all"
+            className="group bg-white border border-slate-200 rounded-2xl p-5 flex items-center justify-between gap-4 hover:border-slate-00 transition-all"
           >
-            <div>
-              <meta.icon size={24} className="text-slate-500" />
+            <div className="size-12 bg-slate-50 rounded-xl flex items-center justify-center shrink-0">
+              <meta.icon className="text-slate-500 size-6" />
             </div>
-            <div>
+            <div className="flex-1 min-w-0">
               <div className="text-slate-900 truncate">{account.handle}</div>
               <div className="text-sm text-slate-500 mt-0.5">{meta.name}</div>
             </div>
@@ -65,14 +64,15 @@ const AccountList = ({ accounts, onDisconnect }: AccountListProps) => {
                   <span className="text-xs text-amber-600">Disconnected</span>
                 </>
               )}
+
+              <button
+                onClick={() => handleDisconnect(account._id)}
+                title="Disconnect account"
+                className="ml-2 p-1.5 rounded-lg text-slate-300 group-hover:text-red-500 transition-all"
+              >
+                <UnplugIcon size={16} className="cursor-pointer" />
+              </button>
             </div>
-            <button
-              onClick={() => handleDisconnect(account._id)}
-              title="Disconnect account"
-              className="ml-2 p-1.5 rounded-lg text-slate-300 group-hover:text-red-500 transition-all"
-            >
-              <UnplugIcon size={16} className="cursor-pointer" />
-            </button>
           </div>
         );
       })}
