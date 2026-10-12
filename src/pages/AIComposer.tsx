@@ -31,7 +31,7 @@ const AIComposer = () => {
     }, 2000);
   };
 
-  const tones = ["rofessional", "Creative", "Funny", "Minimalist", "Excited"];
+  const tones = ["Professional", "Creative", "Funny", "Minimalist", "Excited"];
 
   return (
     <div className="max-w-4xl mx-auto space-y-12 pb-20 fade-in duration-700">
@@ -80,6 +80,12 @@ const AIComposer = () => {
               )}
             </button>
           </div>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-2">
+          {tones.map((t)=> (
+            <button key={t} onClick={()=> setTone(t)} className={`px-4 py-1.5 rounded-full text-sm transition-all border ${tone === t ? "bg-red-500 border-red-500 text-white" : ""}`}>{t}</button>
+          ))}
         </div>
       </div>
 
