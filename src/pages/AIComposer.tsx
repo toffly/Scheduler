@@ -6,6 +6,7 @@ import {
   ClockIcon,
   HistoryIcon,
   Loader2Icon,
+  TimerIcon,
   Wand2Icon,
   XIcon,
 } from "lucide-react";
@@ -26,6 +27,13 @@ const AIComposer = () => {
 
   const fetchGenerations = async () => {
     setGenerations(dummyGenerationData);
+  };
+
+  const handleSchedule = async () => {
+    setScheduling(true);
+    setTimeout(() => {
+      setScheduling(false);
+    }, 2000);
   };
 
   useEffect(() => {
@@ -204,59 +212,70 @@ const AIComposer = () => {
                   />
                 )}
               </div>
+            </div>
+            <div className="p-8 bg-slate-50/50 border-t border-slate-50 space-y-8">
+              {/* Options */}
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-xs text-slate-600 uppercase tracking-widest mb-4">
+                    Select Channels
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {PLATFORMS.map((p) => {
+                      const active = selectedPlatforms.includes(p.id);
+                      return (
+                        <button
+                          key={p.id}
+                          onClick={() =>
+                            setSelectedPlatforms((prev) =>
+                              prev.includes(p.id)
+                                ? prev.filter((x) => x !== p.id)
+                                : [...prev, p.id],
+                            )
+                          }
+                          className={`p-2.5 rounded-md border text-xs ${active ? "bg-red-500/80 text-white" : "bg-white border-slate-200 text-slate-400 hover:border-slate-300"}`}
+                        >
+                          <p.icon className="size-4.5" />
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
 
-              <div className="p-8 bg-slate-50/50 border-t border-slate-50 space-y-8">
-                {/* Options */}
-                <div className="space-y-6">
-                  <div>
-                    <label className="block text-xs text-slate-600 uppercase tracking-widest mb-4">
-                      Select Channels
-                    </label>
-                    <div className="flex flex-wrap gap-2">
-                      {PLATFORMS.map((p) => {
-                        const active = selectedPlatforms.includes(p.id);
-                        return (
-                          <button
-                            key={p.id}
-                            onClick={() =>
-                              setSelectedPlatforms((prev) =>
-                                prev.includes(p.id)
-                                  ? prev.filter((x) => x !== p.id)
-                                  : [...prev, p.id],
-                              )
-                            }
-                            className={`p-2.5 rounded-md border text-xs ${active ? "bg-red-500/80 text-white" : "bg-white border-slate-200 text-slate-400 hover:border-slate-300"}`}
-                          >
-                            <p.icon className="size-4.5" />
-                          </button>
-                        );
-                      })}
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="relative">
+                    <CalendarIcon className="size-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="date"
+                      className="w-full pl-11 pr-4  py-3 bg-slate-50 border border-slate-100 rounded-md text-slate-900 text-sm focus-within:outline-none transition-all"
+                      value={scheduledDate}
+                      onChange={(e) => setScheduledDate(e.target.value)}
+                    />
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="relative">
-                      <CalendarIcon className="size-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input
-                        type="date"
-                        className="w-full pl-11 pr-4  py-3 bg-slate-50 border border-slate-100 rounded-md text-slate-900 text-sm focus-within:outline-none transition-all"
-                        value={scheduledDate}
-                        onChange={(e) => setScheduledDate(e.target.value)}
-                      />
-                    </div>
-
-                    <div className="relative">
-                      <ClockIcon className="size-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input
-                        type="time"
-                        className="w-full pl-11 pr-4  py-3 bg-slate-50 border border-slate-100 rounded-md text-slate-900 text-sm focus-within:outline-none transition-all"
-                        value={scheduledTime}
-                        onChange={(e) => setScheduledTime(e.target.value)}
-                      />
-                    </div>
+                  <div className="relative">
+                    <ClockIcon className="size-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="time"
+                      className="w-full pl-11 pr-4  py-3 bg-slate-50 border border-slate-100 rounded-md text-slate-900 text-sm focus-within:outline-none transition-all"
+                      value={scheduledTime}
+                      onChange={(e) => setScheduledTime(e.target.value)}
+                    />
                   </div>
                 </div>
               </div>
+
+              <button
+                onClick={handleSchedule}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-md bg-slate-200 text-slate-700 hover:bg-red-500 hover:text-white transition "
+              >
+                {scheduling ? (
+                  <Loader2Icon className="size-4 animate-spin" />
+                ) : (
+                  <TimerIcon className="size-4" />
+                )}
+                Schedule Post
+              </button>
             </div>
           </div>
         </div>
