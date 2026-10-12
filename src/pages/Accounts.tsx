@@ -9,16 +9,17 @@ const Accounts = () => {
   const [connecting, setConnecting] = useState<string | null>(null);
   const [showPlatformPicker, setShowPlatformPicker] = useState(false);
 
+  const fetchAccounts = async (
+    isSync = false,
+    platform?: string | null,
+    successMsg?: string,
+  ) => {
+    setAccounts(dummyAccountsData);
+    console.log(isSync, platform, successMsg);
+  };
+
   useEffect(() => {
-    const fetchAccounts = async (
-      isSync = false,
-      platform?: string | null,
-      successMsg?: string,
-    ) => {
-      setAccounts(dummyAccountsData);
-      console.log(isSync, platform, successMsg);
-    };
-    fetchAccounts();
+    (async () => await fetchAccounts())();
   }, []);
 
   const handleConnect = async (platformId: string) => {
@@ -56,7 +57,14 @@ const Accounts = () => {
       </div>
 
       {/* Platform picker modal */}
-      {showPlatformPicker && <PlatformPicker connectedIds={connectedIds} connecting={connecting} onClose={()=> setShowPlatformPicker(false)} onConnect={handleConnect}/>}
+      {showPlatformPicker && (
+        <PlatformPicker
+          connectedIds={connectedIds}
+          connecting={connecting}
+          onClose={() => setShowPlatformPicker(false)}
+          onConnect={handleConnect}
+        />
+      )}
 
       {/* Connected accounts list */}
       <AccountList accounts={accounts} onDisconnect={handleDisconnect} />
